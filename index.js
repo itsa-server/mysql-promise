@@ -4,8 +4,7 @@
 
     "use strict";
 
-    var NAME = '[Classes]: ',
-        createHashMap = require('js-ext/extra/hashmap.js').createMap,
+    var createHashMap = require('js-ext/extra/hashmap.js').createMap,
         LOST_CONNECTION = 'PROTOCOL_CONNECTION_LOST',
         connections, mySQLConnection, Connection, mysql, Classes;
 
@@ -199,7 +198,7 @@
              * @since 0.1
             **/
             getRecord: function(sql, values) {
-                limitone = new RegExp(' limit 1$', 'i');
+                var limitone = new RegExp(' limit 1$', 'i');
                 limitone.test(sql) || (sql += ' LIMIT 1');
                 return this.getRecords(sql, values).then(
                     function(records) {
@@ -334,12 +333,12 @@
             config.database = database;
             config.user = user;
             config.password = password;
-            if (!connections[dbName]) {
-                connections[dbName] = new Connection(config);
+            if (!connections[database]) {
+                connections[database] = new Connection(config);
             }
-            return connections[dbName];
+            return connections[database];
         }
-    }
+    };
 
     module.exports = mySQLConnection;
 
