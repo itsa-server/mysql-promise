@@ -328,15 +328,17 @@
     );
 
     mySQLConnection = global._ITSAmodules.mySQLConnection = {
-        getConnection: function(database, user, password, config) {
+        getConnection: function(config) {
             config || (config = {});
-            config.database = database;
-            config.user = user;
-            config.password = password;
-            if (!connections[database]) {
-                connections[database] = new Connection(config);
+            if (config.database && config.user && config.password) {
+                if (!connections[database]) {
+                    connections[database] = new Connection(config);
+                }
+                return connections[database];
             }
-            return connections[database];
+            else {
+                console.log('mySQLConnection.getConnection invoked without proper database/user/password');
+            }
         }
     };
 
