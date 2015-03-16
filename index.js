@@ -18,7 +18,7 @@
     }
 
     mysql = require('mysql');
-    Classes = require('js-ext').Classes;
+    Classes = require('js-ext/js-ext.js').Classes; // full version
     connections = {};
 
     /**
@@ -331,10 +331,10 @@
         getConnection: function(config) {
             config || (config = {});
             if (config.database && config.user && config.password) {
-                if (!connections[database]) {
-                    connections[database] = new Connection(config);
+                if (!connections[config.database]) {
+                    connections[config.database] = new Connection(config);
                 }
-                return connections[database];
+                return connections[config.database];
             }
             else {
                 console.log('mySQLConnection.getConnection invoked without proper database/user/password');
