@@ -198,8 +198,7 @@
              * @since 0.1
             **/
             getRecord: function(sql, values) {
-                var limitone = new RegExp(' limit 1$', 'i');
-                limitone.test(sql) || (sql += ' LIMIT 1');
+                sql.contains(' limit ', true) || (sql += ' LIMIT 1');
                 return this.getRecords(sql, values).then(
                     function(records) {
                         return records[0];
