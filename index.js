@@ -18,7 +18,7 @@
     }
 
     mysql = require('mysql');
-    Classes = require('js-ext').Classes;
+    Classes = require('js-ext/js-ext.js').Classes; // full version
     connections = {};
 
     /**
@@ -198,8 +198,7 @@
              * @since 0.1
             **/
             getRecord: function(sql, values) {
-                var limitone = new RegExp(' limit 1$', 'i');
-                limitone.test(sql) || (sql += ' LIMIT 1');
+                sql.contains(' limit ', true) || (sql += ' LIMIT 1');
                 return this.getRecords(sql, values).then(
                     function(records) {
                         return records[0];
@@ -331,10 +330,10 @@
         getConnection: function(config) {
             config || (config = {});
             if (config.database && config.user && config.password) {
-                if (!connections[database]) {
-                    connections[database] = new Connection(config);
+                if (!connections[config.database]) {
+                    connections[config.database] = new Connection(config);
                 }
-                return connections[database];
+                return connections[config.database];
             }
             else {
                 console.log('mySQLConnection.getConnection invoked without proper database/user/password');
